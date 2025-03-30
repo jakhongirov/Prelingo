@@ -276,7 +276,7 @@ router
 	 *               email:
 	 *                 type: string
 	 *                 description: User's registered email
-	 *                 example: diyor.jakhongirov@icloud.com
+	 *                 example: ddiyor.jakhongirov@gamil.com
 	 *     responses:
 	 *       '200':
 	 *         description: Successful login
@@ -364,7 +364,7 @@ router
 	 * 				  email
 	 * 					 type: string
 	 *                 description: User's registered email
-	 *                 example: diyor.jakhongirov@gamil.com
+	 *                 example: diyor.jakhongirov@gmail.com
 	 *               password:
 	 *                 type: string
 	 *                 description: User's password
@@ -683,7 +683,7 @@ router
 	 *            name: token
 	 *            required: true
 	 *            schema:
-	 *                type: string
+	 *              type: string
 	 *            description: Authentication token
 	 *       security:
 	 *          - token: []
