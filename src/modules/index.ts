@@ -24,7 +24,7 @@ router
 	 *       in: header
 	 *       name: token
 	 */
-	
+
 	// USERS
 	/**
 	 * @swagger
@@ -103,6 +103,25 @@ router
 	 *         create_at:
 	 * 			 type: string
 	 * 			 description: user create date
+	 *     example:
+	 * 		 id: 1,
+	 *        surname: Kimidirov
+	 * 	    name: Kimdir
+	 *        phone_number: +998977771854
+	 *        email: kimdr@gmail.com
+	 *        email_id: efrfeferferf
+	 * 		 password: fefmefjerfe
+	 * 		 country: Uz
+	 * 		 region: toshkent
+	 * 		 count_starts: 9
+	 *        balance: 0
+	 *        referral_code: 5rfgytrdxvgt5resxvgt54
+	 *        chat_id: 6546543
+	 * 		 bot_step: start
+	 *        bot_lang: uz
+	 * 		 app_token: [ 'wfmkefferfkerf' ]
+	 * 		 telegram: true
+	 *        create_at:  2024-01-23 10:52:41 +0000
 	 */
 
 	/**
