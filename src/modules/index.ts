@@ -138,7 +138,7 @@ router
 	 * @swagger
 	 * /users/list:
 	 *   get:
-	 *      summary: Returns a list of all users (for frontend developers)
+	 *     summary: Returns a list of all users (for frontend developers)
 	 *     tags: [Users]
 	 *     security:
 	 *       - token: []
