@@ -104,7 +104,7 @@ router
 	 * 			 type: string
 	 * 			 description: user create date
 	 *     example:
-	 * 		 id: 1,
+	 * 		 id: 1
 	 *        surname: Kimidirov
 	 * 	    name: Kimdir
 	 *        phone_number: +998977771854
@@ -304,7 +304,7 @@ router
 	 *               email:
 	 *                 type: string
 	 *                 description: User's registered email
-	 *                 example: ddiyor.jakhongirov@gamil.com
+	 *                 example: diyor.jakhongirov@gmail.com
 	 *     responses:
 	 *       '200':
 	 *         description: Successful login
