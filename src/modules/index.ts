@@ -16,6 +16,15 @@ const router = Router();
 
 router
 
+	/**
+	 * components:
+	 *    securitySchemes:
+	 *       token:
+	 *       type: apiKey
+	 *       in: header
+	 *       name: token
+	 */
+	
 	// USERS
 	/**
 	 * @swagger
