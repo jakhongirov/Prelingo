@@ -367,7 +367,7 @@ router
 	 */
 	.get('/user/register/apple', passport.authenticate('apple'))
 	.post(
-		'/apple/callback',
+		'/auth/apple/callback',
 		passport.authenticate('apple', { session: false }),
 		users.APPLE,
 	)

@@ -15,7 +15,7 @@ passport.use(
 		{
 			clientID: process.env.GOOGLE_CLIENT_ID!,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-			callbackURL: 'https://prelingo.admob.uz/auth/google/callback',
+			callbackURL: 'https://prelingo.admob.uz/api/v1/auth/google/callback',
 			scope: [
 				'email', // Get email
 				'profile', // Get name (profile image can be ignored)
@@ -65,7 +65,7 @@ passport.use(
 			teamID: process.env.APPLE_TEAM_ID!,
 			keyID: process.env.APPLE_KEY_ID!,
 			privateKeyString: fs.readFileSync('AuthKey_FNWJ2ZV2YV.p8', 'utf8'),
-			callbackURL: 'https://prelingo.admob.uz/auth/apple/callback',
+			callbackURL: 'https://prelingo.admob.uz/api/v1/auth/apple/callback',
 			scope: ['email', 'name'],
 			passReqToCallback: true, // Ensures correct function signature
 		},
