@@ -143,12 +143,12 @@ router
 	 *     security:
 	 *       - BearerAuth: []  # Define this in components/securitySchemes
 	 *     parameters:
-	 *       - in: header
-	 *         name: Authorization
-	 *         required: true
-	 *         schema:
-	 *           type: string
-	 *         description: Bearer token for authentication (format: Bearer <token>)
+	 *          - in: header
+	 *            name: token
+	 *            required: true
+	 *            schema:
+	 *               type: string
+	 *            description: Authentication token
 	 *       - in: query
 	 *         name: limit
 	 *         schema:
@@ -426,12 +426,12 @@ router
 	 *     summary: Edit user's data
 	 *     tags: [Users]
 	 *     parameters:
-	 *       - in: header
-	 *         name: token
-	 *         required: true
-	 *         schema:
-	 *           type: string
-	 *         description: Authentication token
+	 *          - in: header
+	 *            name: token
+	 *            required: true
+	 *            schema:
+	 *               type: string
+	 *            description: Authentication token
 	 *     security:
 	 *       - token: []
 	 *     requestBody:
