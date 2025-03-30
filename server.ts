@@ -308,7 +308,7 @@ const options = {
 			},
 		],
 	},
-	apis: ['./dist/src/modules/index.js.js'],
+	apis: ['./src/modules/index.js'],
 };
 
 const specs = swaggerJsDoc(options);
