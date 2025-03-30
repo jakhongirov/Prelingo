@@ -4,6 +4,7 @@ import AppleStrategy from 'passport-apple';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import jwt from 'jsonwebtoken';
+import jwksClient from 'jwks-rsa';
 
 dotenv.config();
 
@@ -58,6 +59,18 @@ passport.use(
 /**
  * APPLE STRATEGY
  */
+
+const client = jwksClient({
+	jwksUri: 'https://appleid.apple.com/auth/keys',
+});
+
+function getKey(header: any, callback: any) {
+	client.getSigningKey(header.kid, (err, key) => {
+		const signingKey = key?.getPublicKey();
+		callback(err, signingKey);
+	});
+}
+
 passport.use(
 	new AppleStrategy(
 		{
@@ -70,26 +83,31 @@ passport.use(
 			passReqToCallback: true, // Ensures correct function signature
 		},
 		async (
-			req: any, // Request object added as first parameter
+			req: any,
 			accessToken: string,
 			refreshToken: string,
-			idToken: string, // Change this to match expected type
-			profile: any, // Explicitly added profile
+			idToken: string,
+			profile: any,
 			done: (error: any, user?: any) => void,
 		) => {
 			try {
-				// Decode the idToken manually
-				const decodedIdToken: any = jwt.decode(idToken);
-				if (!decodedIdToken) {
-					return done(new Error('Failed to decode idToken'), null);
-				}
+				jwt.verify(
+					idToken,
+					getKey,
+					{ algorithms: ['RS256'] },
+					(err: any, decoded: any) => {
+						if (err || !decoded) {
+							return done(new Error('Failed to verify idToken'), null);
+						}
 
-				const user = {
-					id: decodedIdToken.sub,
-					email: decodedIdToken.email,
-					name: decodedIdToken.name || 'Apple User',
-				};
-				return done(null, user);
+						const user = {
+							id: decoded.sub,
+							email: decoded.email,
+							name: decoded.name || 'Apple User',
+						};
+						return done(null, user);
+					},
+				);
 			} catch (error) {
 				return done(error, null);
 			}
