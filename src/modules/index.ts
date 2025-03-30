@@ -138,17 +138,17 @@ router
 	 * @swagger
 	 * /users/list:
 	 *   get:
-	 *     summary: Returns a list of all users (for frontend developers)
+	 *      summary: Returns a list of all users (for frontend developers)
 	 *     tags: [Users]
 	 *     security:
-	 *       - BearerAuth: []  # Define this in components/securitySchemes
+	 *       - token: []
 	 *     parameters:
-	 *          - in: header
-	 *            name: token
-	 *            required: true
-	 *            schema:
-	 *               type: string
-	 *            description: Authentication token
+	 *       - in: header
+	 *         name: token
+	 *         required: true
+	 *         schema:
+	 *           type: string
+	 *         description: Authentication token
 	 *       - in: query
 	 *         name: limit
 	 *         schema:
@@ -170,16 +170,6 @@ router
 	 *                 $ref: '#/components/schemas/Users'
 	 *       '500':
 	 *         description: Server error
-	 */
-
-	/**
-	 * @swagger
-	 * components:
-	 *   securitySchemes:
-	 *     BearerAuth:
-	 *       type: http
-	 *       scheme: bearer
-	 *       bearerFormat: JWT
 	 */
 	.get('/users/list', AUTH, users.GET_LIST)
 
