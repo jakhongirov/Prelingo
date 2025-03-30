@@ -27,97 +27,102 @@ router
 
 	// USERS
 	/**
-    * @swagger
-    * components:
-    * schemas:
-    * Users:
-    * type: object
-    * required:
-    * - email
-    * properties:
-    * id:
-    * type: integer
-    * description: auto generate
-    * surname:
-    * type: string
-    * description: user's surname
-    * name:
-    * type: string
-    * description: user's name
-    * phone_number:
-    * type: string
-    * description: user's phone number
-    * email:
-    * type: string
-    * description: user's email
-    * password:
-    * type: string
-    * description: user's password, auto hash
-    * country:
-    * type: string
-    * description: user's country
-    * region:
-    * type: string
-    * description: user's region
-    * count_starts:
-    * type: integer
-    * description: user's count starts
-    * finished_lessons:
-    * type: array
-    * items:
-    * type: integer
-    * description: user's finished lessons id
-    * saved_word:
-    * type: array
-    * items:
-    * type: integer
-    * description: user's saved word id
-    * saved_phrase:
-    * type: array
-    * items:
-    * type: integer
-    * description: user's saved phrase id
-    * balance:
-    * type: integer
-    * description: user's balance
-    * referral_code:
-    * type: string
-    * description: user's referral code
-    * chat_id:
-    * type: integer
-    * description: user's chat id
-    * bot_step:
-    * type: string
-    * description: user's bot step
-    * bot_lang:
-    * type: string
-    * description: user's bot lang
-    * app_token:
-    * type: array
-    * items:
-    * type: string
-    * description: user's app token
-    * telegram:
-    * type: boolean
-    * description: user registered with telegram bot
-    * create_at:
-    * type: string
-    * description: user create date
-    * example:
-    * id: 1,
-    * surname: Kimidirov,
-    * name: Kimdir,
-    * phone_number: +998977771854,
-    * email: kimdr@gmail.com,
-    * password: fefmefjerfe,
-    * country: Uz,
-    * region: toshkent,
-    * count_starts: 9,
-    * balance: 0,
-    * referral_code: 5rfgytrdxvgt5resxvgt54,
-    * chat_id: 6546543,
-    * bot_step: start,
-    *
+	 * @swagger
+	 *	components:
+	 *   schemas:
+	 *     Users:
+	 *       tpype: object
+	 *       required:
+	 * 	     - email
+	 *       properties:
+	 * 		  id:
+	 * 		    type: integer
+	 *           description: auto generate
+	 * 		  surname:
+	 * 		    type: string
+	 *           description: user's surname
+	 *         name:
+	 *           type: string
+	 *           description: user's name
+	 *         phone_number:
+	 *           type: string
+	 *           description: user's phone number
+	 *         email:
+	 * 			 type: string
+	 *           description: user's email
+	 *         password:
+	 *           type: string
+	 *           description: user's password, auto hash
+	 *         country:
+	 * 			 type: string
+	 * 			 description: user's country
+	 *         region:
+	 * 			 type: string
+	 * 			 description: user's region
+	 *         count_starts:
+	 * 			 type: integer
+	 * 			 description: user's count starts
+	 *         finished_lessons:
+	 * 			 type: array
+	 *           items:
+	 *             type: integer
+	 * 			 description: user's finished lessons id
+	 *         saved_word:
+	 * 			 type: array
+	 *           items:
+	 *             type: integer
+	 * 			 description: user's saved word id
+	 *         saved_phrase:
+	 * 			 type: array
+	 *           items:
+	 *             type: integer
+	 * 			 description: user's saved phrase id
+	 *         balance:
+	 * 			 type: integer
+	 * 			 description: user's balance
+	 *         referral_code:
+	 * 			 type: string
+	 * 			 description: user's referral code
+	 *         chat_id:
+	 * 			 type: integer
+	 * 			 description: user's chat id
+	 *         bot_step:
+	 * 			 type: string
+	 * 			 description: user's bot step
+	 *         bot_lang:
+	 * 			 type: string
+	 * 			 description: user's bot lang
+	 *         app_token:
+	 * 			 type: array
+	 *           items:
+	 *             type: string
+	 * 			 description: user's app token
+	 *         telegram:
+	 * 			 type: boolean
+	 * 			 description: user registered with telegram bot
+	 *         create_at:
+	 * 			 type: string
+	 * 			 description: user create date
+	 *     example:
+	 * 		 id: 1,
+	 *        surname: Kimidirov
+	 * 	    name: Kimdir
+	 *        phone_number: +998977771854
+	 *        email: kimdr@gmail.com
+	 *        email_id: efrfeferferf
+	 * 		 password: fefmefjerfe
+	 * 		 country: Uz
+	 * 		 region: toshkent
+	 * 		 count_starts: 9
+	 *        balance: 0
+	 *        referral_code: 5rfgytrdxvgt5resxvgt54
+	 *        chat_id: 6546543
+	 * 		 bot_step: start
+	 *        bot_lang: uz
+	 * 		 app_token: [ 'wfmkefferfkerf' ]
+	 * 		 telegram: true
+	 *        create_at:  2024-01-23 10:52:41 +0000
+	 */
 
 	/**
 	 * @swagger
