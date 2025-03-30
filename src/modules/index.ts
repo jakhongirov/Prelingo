@@ -28,124 +28,127 @@ router
 	// USERS
 	/**
 	 * @swagger
-	 *	components:
+	 * components:
 	 *   schemas:
 	 *     Users:
-	 *       tpype: object
+	 *       type: object
 	 *       required:
-	 * 	     - email
+	 *         - email
 	 *       properties:
-	 * 		  id:
-	 * 		    type: integer
-	 *           description: auto generate
-	 * 		  surname:
-	 * 		    type: string
-	 *           description: user's surname
+	 *         id:
+	 *           type: integer
+	 *           description: Auto-generated ID
+	 *         surname:
+	 *           type: string
+	 *           description: User's surname
 	 *         name:
 	 *           type: string
-	 *           description: user's name
+	 *           description: User's name
 	 *         phone_number:
 	 *           type: string
-	 *           description: user's phone number
+	 *           description: User's phone number
 	 *         email:
-	 * 			 type: string
-	 *           description: user's email
+	 *           type: string
+	 *           description: User's email
 	 *         password:
 	 *           type: string
-	 *           description: user's password, auto hash
+	 *           description: User's password (hashed)
 	 *         country:
-	 * 			 type: string
-	 * 			 description: user's country
+	 *           type: string
+	 *           description: User's country
 	 *         region:
-	 * 			 type: string
-	 * 			 description: user's region
+	 *           type: string
+	 *           description: User's region
 	 *         count_starts:
-	 * 			 type: integer
-	 * 			 description: user's count starts
+	 *           type: integer
+	 *           description: User's count starts
 	 *         finished_lessons:
-	 * 			 type: array
+	 *           type: array
+	 *           description: User's finished lessons ID
 	 *           items:
 	 *             type: integer
-	 * 			 description: user's finished lessons id
 	 *         saved_word:
-	 * 			 type: array
+	 *           type: array
+	 *           description: User's saved word ID
 	 *           items:
 	 *             type: integer
-	 * 			 description: user's saved word id
 	 *         saved_phrase:
-	 * 			 type: array
+	 *           type: array
+	 *           description: User's saved phrase ID
 	 *           items:
 	 *             type: integer
-	 * 			 description: user's saved phrase id
 	 *         balance:
-	 * 			 type: integer
-	 * 			 description: user's balance
+	 *           type: integer
+	 *           description: User's balance
 	 *         referral_code:
-	 * 			 type: string
-	 * 			 description: user's referral code
+	 *           type: string
+	 *           description: User's referral code
 	 *         chat_id:
-	 * 			 type: integer
-	 * 			 description: user's chat id
+	 *           type: integer
+	 *           description: User's chat ID
 	 *         bot_step:
-	 * 			 type: string
-	 * 			 description: user's bot step
+	 *           type: string
+	 *           description: User's bot step
 	 *         bot_lang:
-	 * 			 type: string
-	 * 			 description: user's bot lang
+	 *           type: string
+	 *           description: User's bot language
 	 *         app_token:
-	 * 			 type: array
+	 *           type: array
+	 *           description: User's app tokens
 	 *           items:
 	 *             type: string
-	 * 			 description: user's app token
 	 *         telegram:
-	 * 			 type: boolean
-	 * 			 description: user registered with telegram bot
+	 *           type: boolean
+	 *           description: Whether the user registered via Telegram bot
 	 *         create_at:
-	 * 			 type: string
-	 * 			 description: user create date
-	 *     example:
-	 * 		 id: 1
-	 *        surname: Kimidirov
-	 * 	    name: Kimdir
-	 *        phone_number: +998977771854
-	 *        email: kimdr@gmail.com
-	 *        email_id: efrfeferferf
-	 * 		 password: fefmefjerfe
-	 * 		 country: Uz
-	 * 		 region: toshkent
-	 * 		 count_starts: 9
-	 *        balance: 0
-	 *        referral_code: 5rfgytrdxvgt5resxvgt54
-	 *        chat_id: 6546543
-	 * 		 bot_step: start
-	 *        bot_lang: uz
-	 * 		 app_token: [ 'wfmkefferfkerf' ]
-	 * 		 telegram: true
-	 *        create_at:  2024-01-23 10:52:41 +0000
+	 *           type: string
+	 *           format: date-time
+	 *           description: User's creation date
+	 *       example:
+	 *         id: 1
+	 *         surname: Kimidirov
+	 *         name: Kimdir
+	 *         phone_number: +998977771854
+	 *         email: kimdr@gmail.com
+	 *         password: fefmefjerfe
+	 *         country: Uz
+	 *         region: Tashkent
+	 *         count_starts: 9
+	 *         finished_lessons: [1, 2, 3]
+	 *         saved_word: [101, 102]
+	 *         saved_phrase: [201, 202]
+	 *         balance: 0
+	 *         referral_code: "5rfgytrdxvgt5resxvgt54"
+	 *         chat_id: 6546543
+	 *         bot_step: start
+	 *         bot_lang: uz
+	 *         app_token: ["wfmkefferfkerf"]
+	 *         telegram: true
+	 *         create_at: "2024-01-23T10:52:41Z"
 	 */
 
 	/**
 	 * @swagger
 	 * tags:
-	 *    name: Users
-	 *    description: Users api documentation
+	 *   name: Users
+	 *   description: Users API documentation
 	 */
 
 	/**
 	 * @swagger
 	 * /users/list:
-	 *	  get:
-	 *   	 summary: Returns a list of all users, for Frontend developers
+	 *   get:
+	 *     summary: Returns a list of all users (for frontend developers)
 	 *     tags: [Users]
 	 *     security:
-	 *       - token: []
+	 *       - BearerAuth: []  # Define this in components/securitySchemes
 	 *     parameters:
 	 *       - in: header
-	 *         name: token
+	 *         name: Authorization
 	 *         required: true
 	 *         schema:
 	 *           type: string
-	 *         description: Authentication token
+	 *         description: Bearer token for authentication (format: Bearer <token>)
 	 *       - in: query
 	 *         name: limit
 	 *         schema:
@@ -165,13 +168,18 @@ router
 	 *               type: array
 	 *               items:
 	 *                 $ref: '#/components/schemas/Users'
-	 *         headers:
-	 *           token:
-	 *             description: Token for authentication
-	 *             schema:
-	 *               type: string
 	 *       '500':
 	 *         description: Server error
+	 */
+
+	/**
+	 * @swagger
+	 * components:
+	 *   securitySchemes:
+	 *     BearerAuth:
+	 *       type: http
+	 *       scheme: bearer
+	 *       bearerFormat: JWT
 	 */
 	.get('/users/list', AUTH, users.GET_LIST)
 
@@ -387,16 +395,16 @@ router
 	 *             properties:
 	 *               phone_number:
 	 *                 type: string
-	 *                 description: User's registered phone number
-	 *                 example: +998991234567
-	 * 				  email
-	 * 					 type: string
-	 *                 description: User's registered email
-	 *                 example: diyor.jakhongirov@gmail.com
+	 *                 description: User's registered phone number (optional if using email)
+	 *                 example: "+998991234567"
+	 *               email:
+	 *                 type: string
+	 *                 description: User's registered email (optional if using phone number)
+	 *                 example: "diyor.jakhongirov@gmail.com"
 	 *               password:
 	 *                 type: string
 	 *                 description: User's password
-	 *                 example: 1234
+	 *                 example: "1234"
 	 *     responses:
 	 *       '200':
 	 *         description: Successful login
@@ -404,6 +412,8 @@ router
 	 *           application/json:
 	 *             schema:
 	 *               $ref: '#/components/schemas/Users'
+	 *       '400':
+	 *         description: Missing required fields or incorrect credentials
 	 *       '500':
 	 *         description: Server error
 	 */
