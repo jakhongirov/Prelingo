@@ -315,7 +315,11 @@ router
 			],
 		}),
 	)
-	.get('/google/callback', passport.authenticate('google', { session: false }))
+	.get(
+		'/google/callback',
+		passport.authenticate('google', { session: false }),
+		users.GOOGLE,
+	)
 
 	/**
 	 * @swagger
@@ -334,7 +338,11 @@ router
 	 *         description: Server error
 	 */
 	.get('/user/register/apple', passport.authenticate('apple'))
-	.post('/apple/callback', passport.authenticate('apple', { session: false }))
+	.post(
+		'/apple/callback',
+		passport.authenticate('apple', { session: false }),
+		users.APPLE,
+	)
 
 	/**
 	 * @swagger
