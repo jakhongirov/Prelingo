@@ -1,0 +1,15 @@
+{
+	"startText": "🇺🇿: Assalomu alaykum, iltimos bot tilni tanlang.\n\n🇷🇺: Здравствуйте, пожалуйста, выберите язык.\n\n🇬🇧: Hello, please select a language.",
+	"startUz": "Iltimos, Ro'yxatdan o'tishni yakunlash uchun Kontaktingizni yuboring 🔽",
+   "startRu": "Пожалуйста, отправьте свою контактную информацию для завершения регистрации 🔽",
+   "startEng": "Please send your contact information to complete your registration 🔽",
+   "contactBtnUz": "Kontaktni yuborish",
+   "contactBtnRu": "Отправить контакт",
+   "contactBtnEng": "Send contact",
+   "successfullyAddedUz": "Sizning so'rovingiz muvaffaqiyatli qabul qilindi, ilovaga qayting.",
+   "successfullyAddedRu": "Ваш запрос успешно получен, вернитесь в приложение.",
+   "successfullyAddedEng": "Your request has been successfully received, return to the app.",
+   "contactErrorUz": "Noto'g'ri kontakt yubordingiz.",
+   "contactErrorRu": "Вы отправили не тот контакт.",
+   "contactErrorEng": "You sent the wrong contact."
+}
