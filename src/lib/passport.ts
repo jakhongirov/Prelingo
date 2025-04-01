@@ -3,6 +3,7 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import AppleStrategy from 'passport-apple';
 import dotenv from 'dotenv';
 import fs from 'fs';
+import path from 'path';
 import jwt from 'jsonwebtoken';
 import jwksClient from 'jwks-rsa';
 
@@ -77,7 +78,10 @@ passport.use(
 			clientID: process.env.APPLE_CLIENT_ID!,
 			teamID: process.env.APPLE_TEAM_ID!,
 			keyID: process.env.APPLE_KEY_ID!,
-			privateKeyString: fs.readFileSync('AuthKey_FNWJ2ZV2YV.p8', 'utf8'),
+			privateKeyString: fs.readFileSync(
+				path.resolve(__dirname, '../../AuthKey_FNWJ2ZV2YV.p8'),
+				'utf8',
+			),
 			callbackURL: 'https://prelingo.admob.uz/api/v1/auth/apple/callback',
 			scope: ['email', 'name'],
 			passReqToCallback: true, // Ensures correct function signature
