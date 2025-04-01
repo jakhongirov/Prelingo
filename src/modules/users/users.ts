@@ -169,8 +169,11 @@ const REGISTER_USER = async (req: Request, res: Response) => {
 
 const REGISTER_EMAIL = async (req: Request, res: Response) => {
 	try {
-		const { email, app_token } = req.body as {
+		const { email, surname, name, password, app_token } = req.body as {
 			email: string;
+			surname: string;
+			name: string;
+			password: string;
 			app_token: string;
 		};
 		const foundUserByEmail = await model.foundUserByEmail(email);
@@ -188,7 +191,14 @@ const REGISTER_EMAIL = async (req: Request, res: Response) => {
 			});
 			return;
 		} else {
-			const createUserEmail = await model.createUserEmail(email, app_token);
+			const pass_hash = await bcryptjs.hash(password, 10);
+			const createUserEmail = await model.createUserEmail(
+				email,
+				surname,
+				name,
+				pass_hash,
+				app_token,
+			);
 
 			if (createUserEmail) {
 				const token = await new JWT({

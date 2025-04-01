@@ -107,19 +107,31 @@ const addToken = (
 
 	return fetch<IUsers>(QUERY, id, app_token);
 };
-const createUserEmail = (email: string, app_token: string) => {
+const createUserEmail = (
+	email: string,
+	surname: string,
+	name: string,
+	pass_hash: string,
+	app_token: string,
+) => {
 	const QUERY = `
       INSERT INTO
          users (
             email,
+            surname,
+            name,
+            password,
             app_token
          ) VALUES (
             $1,
-            ARRAY[$2]
+            $2,
+            $3,
+            $4,
+            ARRAY[$5]
          ) RETURNING *;
    `;
 
-	return fetch<IUsers>(QUERY, email, app_token);
+	return fetch<IUsers>(QUERY, email, surname, name, pass_hash, app_token);
 };
 const addUser = (
 	id: string,

@@ -301,8 +301,24 @@ router
 	 *             properties:
 	 *               email:
 	 *                 type: string
-	 *                 description: User's registered email
+	 *                 description: User's email
 	 *                 example: diyor.jakhongirov@gmail.com
+	 *               surname:
+	 *                 type: string
+	 *                 description: User's  surname
+	 *                 example: kimdirov
+	 *               name:
+	 *                 type: string
+	 *                 description: User's  name
+	 *                 example: kimdir
+	 *               password:
+	 *                 type: string
+	 *                 description: User's  password
+	 *                 example: kimdir
+	 *               app_token:
+	 *                 type: string
+	 *                 description: User's  app_token
+	 *                 example: kimdir
 	 *     responses:
 	 *       '200':
 	 *         description: Successful login
