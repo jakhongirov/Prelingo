@@ -79,7 +79,7 @@ passport.use(
 			teamID: process.env.APPLE_TEAM_ID!,
 			keyID: process.env.APPLE_KEY_ID!,
 			privateKeyString: fs.readFileSync(
-				path.resolve(__dirname, '../../AuthKey_FNWJ2ZV2YV.p8'),
+				path.resolve(__dirname, '../../../AuthKey_FNWJ2ZV2YV.p8'),
 				'utf8',
 			),
 			callbackURL: 'https://prelingo.admob.uz/api/v1/auth/apple/callback',
