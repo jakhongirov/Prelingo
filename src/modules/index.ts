@@ -62,21 +62,6 @@ router
 	 *         count_starts:
 	 *           type: integer
 	 *           description: User's count starts
-	 *         finished_lessons:
-	 *           type: array
-	 *           description: User's finished lessons ID
-	 *           items:
-	 *             type: integer
-	 *         saved_word:
-	 *           type: array
-	 *           description: User's saved word ID
-	 *           items:
-	 *             type: integer
-	 *         saved_phrase:
-	 *           type: array
-	 *           description: User's saved phrase ID
-	 *           items:
-	 *             type: integer
 	 *         balance:
 	 *           type: integer
 	 *           description: User's balance
@@ -114,9 +99,6 @@ router
 	 *         country: Uz
 	 *         region: Tashkent
 	 *         count_starts: 9
-	 *         finished_lessons: [1, 2, 3]
-	 *         saved_word: [101, 102]
-	 *         saved_phrase: [201, 202]
 	 *         balance: 0
 	 *         referral_code: "5rfgytrdxvgt5resxvgt54"
 	 *         chat_id: 6546543
