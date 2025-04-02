@@ -804,7 +804,7 @@ router
 	 *       Referrals:
 	 * 	      type: object
 	 *          required:
-	 *             - user_id
+	 *            - user_id
 	 *          properties:
 	 *             id:
 	 *                type: integer
@@ -845,7 +845,7 @@ router
 	 * /referrals/list:
 	 *    get:
 	 *       summary: Returns a list of all referral, for Frontend developers
-	 *       tags: [Devices]
+	 *       tags: [Referrals]
 	 *       security:
 	 *          - token: []
 	 *       parameters:
