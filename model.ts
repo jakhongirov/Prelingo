@@ -19,12 +19,12 @@ const addToken = (
 };
 const foundUserByParam = (param: string): Promise<IUsers | null> => {
 	const QUERY: string = `
-      SELECT
-         *
-      FROM
-         users
-      WHERE
-         $1 = ANY(app_token);
+      SELECT 
+         * 
+      FROM 
+         users 
+      WHERE 
+         app_token @> ARRAY[$1];
    `;
 
 	return fetch<IUsers>(QUERY, param);
