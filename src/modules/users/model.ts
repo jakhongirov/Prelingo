@@ -55,7 +55,7 @@ const createUser = (
             $1, 
             $2, 
             $3,
-            ARRAY [$4]
+            ARRAY[$4]
          ) RETURNING *;
    `;
 
