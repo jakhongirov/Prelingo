@@ -226,8 +226,8 @@ router
 	 *         schema:
 	 *           type: string
 	 *         description: Authentication token
-	 *       - in: token
-	 *         name: user_id
+	 *       - in: path
+	 *         name: token
 	 *         required: true
 	 *         schema:
 	 *           type: integer
@@ -311,6 +311,14 @@ router
 	 *                 type: string
 	 *                 description: User's  name
 	 *                 example: kimdir
+	 *               country:
+	 *                 type: string
+	 *                 description: User's  country
+	 *                 example: uzbekistan
+	 *               region:
+	 *                 type: string
+	 *                 description: User's  region
+	 *                 example: tashkent
 	 *               password:
 	 *                 type: string
 	 *                 description: User's  password
@@ -813,7 +821,93 @@ router
 	.delete('/device/delete', AUTH, devices.DELETE_DEVICE)
 
 	// REFERRALS
-	.get('/referrals/list', referrals.GET_LIST)
+	/**
+	 * @swagger
+	 * components:
+	 *    schemas:
+	 *       Referrals:
+	 * 	      type: object
+	 *          required:
+	 *             - user_id
+	 *          properties:
+	 *             id:
+	 *                type: integer
+	 *                description: auto generate
+	 *             user_id:
+	 *                type: integer
+	 *                description: user's id
+	 *             referral_code:
+	 *                type: string
+	 *                description: referral code
+	 *             parent_id:
+	 *                type: integer
+	 *                description: parent id
+	 *             position:
+	 *                type: string
+	 *                description: position
+	 *             create_at:
+	 *                type: string
+	 *                description: create at
+	 *          example:
+	 *             id: 1
+	 *             user_id: 2
+	 *             referral_code: 2234234ewwefefe
+	 *             parent_id: 2
+	 *             position: right
+	 *             create_at: 2024-01-23 10:52:41 +0000
+	 */
+
+	/**
+	 * @swagger
+	 * tags:
+	 *    name: Referrals
+	 *    description: Referrals api documentation
+	 */
+
+	/**
+	 * @swagger
+	 * /referrals/list:
+	 *    get:
+	 *       summary: Returns a list of all referral, for Frontend developers
+	 *       tags: [Devices]
+	 *       security:
+	 *          - token: []
+	 *       parameters:
+	 *          - in: header
+	 *            name: token
+	 *            required: true
+	 *            schema:
+	 *               type: string
+	 *            description: Authentication token
+	 *          - in: query
+	 *            name: limit
+	 *            schema:
+	 *               type: integer
+	 *            description: Limit for the number of referrals in the list
+	 *          - in: query
+	 *            name: page
+	 *            schema:
+	 *               type: integer
+	 *            description: Page number for pagination
+	 *       responses:
+	 *         '200':
+	 *             description: A list of referral
+	 *             content:
+	 *                application/json:
+	 *                   schema:
+	 *                      type: array
+	 *                      items:
+	 *                         $ref: '#/components/schemas/Referrals'
+	 *         headers:
+	 *          token:
+	 *             description: Token for authentication
+	 *             schema:
+	 *                type: string
+	 *         '500':
+	 *           description: Server error
+	 */
+	.get('/referrals/list', AUTH, referrals.GET_LIST)
+
 	.get('/referrals/:referral_code', referrals.GET_REFERRALS)
 	.post('/referral/add', referrals.CREATE_REFERRAL)
 

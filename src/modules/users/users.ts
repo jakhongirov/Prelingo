@@ -169,13 +169,16 @@ const REGISTER_USER = async (req: Request, res: Response) => {
 
 const REGISTER_EMAIL = async (req: Request, res: Response) => {
 	try {
-		const { email, surname, name, password, app_token } = req.body as {
-			email: string;
-			surname: string;
-			name: string;
-			password: string;
-			app_token: string;
-		};
+		const { email, surname, name, country, region, password, app_token } =
+			req.body as {
+				email: string;
+				surname: string;
+				name: string;
+				country: string;
+				region: string;
+				password: string;
+				app_token: string;
+			};
 		const foundUserByEmail = await model.foundUserByEmail(email);
 
 		if (foundUserByEmail) {
@@ -196,6 +199,8 @@ const REGISTER_EMAIL = async (req: Request, res: Response) => {
 				email,
 				surname,
 				name,
+				country,
+				region,
 				pass_hash,
 				app_token,
 			);

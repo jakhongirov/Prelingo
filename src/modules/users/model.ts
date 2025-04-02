@@ -111,6 +111,8 @@ const createUserEmail = (
 	email: string,
 	surname: string,
 	name: string,
+	country: string,
+	region: string,
 	pass_hash: string,
 	app_token: string,
 ) => {
@@ -120,6 +122,8 @@ const createUserEmail = (
             email,
             surname,
             name,
+            country,
+            region,
             password,
             app_token
          ) VALUES (
@@ -127,11 +131,22 @@ const createUserEmail = (
             $2,
             $3,
             $4,
-            ARRAY[$5]
+            $5,
+            $6,
+            ARRAY[$7]
          ) RETURNING *;
    `;
 
-	return fetch<IUsers>(QUERY, email, surname, name, pass_hash, app_token);
+	return fetch<IUsers>(
+		QUERY,
+		email,
+		surname,
+		name,
+		country,
+		region,
+		pass_hash,
+		app_token,
+	);
 };
 const addUser = (
 	id: string,
