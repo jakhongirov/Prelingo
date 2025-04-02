@@ -74,7 +74,7 @@ const createUser = (
             telegram
          ) VALUES (
             $1,
-            ARRAY [$2],
+            ARRAY[$2],
             $3,
             true
          ) RETURNING *;
