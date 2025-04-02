@@ -202,12 +202,6 @@ router
 	 *     security:
 	 *       - token: []
 	 *     parameters:
-	 *       - in: header
-	 *         name: token
-	 *         required: false
-	 *         schema:
-	 *           type: string
-	 *         description: Authentication token
 	 *       - in: path
 	 *         name: token
 	 *         required: true

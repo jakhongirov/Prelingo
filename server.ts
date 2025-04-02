@@ -44,6 +44,7 @@ bot.onText(/\/start ?(.*)?/, async (msg, match) => {
 	const chatId: number = msg.chat.id;
 	const param = match ? match[1]?.trim() : null;
 	const foundUser = await model.foundUser(chatId);
+	console.log(foundUser);
 
 	if (param) {
 		if (!foundUser?.app_token?.includes(param)) {
@@ -103,6 +104,7 @@ bot.onText(/\/start ?(.*)?/, async (msg, match) => {
 			});
 		} else {
 			const foundUserByParam = await model.foundUserByParam(param);
+			console.log(foundUserByParam);
 			bot.sendMessage(chatId, botText.startText, {
 				reply_markup: {
 					keyboard: [

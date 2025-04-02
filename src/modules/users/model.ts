@@ -34,7 +34,7 @@ const userByToken = (token: string | undefined): Promise<IUsers | null> => {
       FROM
          users
       WHERE
-         $1 = ANY (app_token);
+         $1 = ANY(app_token);
    `;
 
 	return fetch<IUsers>(QUERY, token);
