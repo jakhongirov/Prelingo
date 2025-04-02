@@ -800,37 +800,38 @@ router
 	/**
 	 * @swagger
 	 * components:
-	 *    schemas:
-	 *       Referrals:
-	 * 	      type: object
-	 *          required:
-	 *            - user_id
-	 *          properties:
-	 *             id:
-	 *                type: integer
-	 *                description: auto generate
-	 *             user_id:
-	 *                type: integer
-	 *                description: user's id
-	 *             referral_code:
-	 *                type: string
-	 *                description: referral code
-	 *             parent_id:
-	 *                type: integer
-	 *                description: parent id
-	 *             position:
-	 *                type: string
-	 *                description: position
-	 *             create_at:
-	 *                type: string
-	 *                description: create at
-	 *          example:
-	 *             id: 1
-	 *             user_id: 2
-	 *             referral_code: 2234234ewwefefe
-	 *             parent_id: 2
-	 *             position: right
-	 *             create_at: 2024-01-23 10:52:41 +0000
+	 *   schemas:
+	 *     Referrals:
+	 *       type: object
+	 *       required:
+	 *         - user_id
+	 *       properties:
+	 *         id:
+	 *           type: integer
+	 *           description: Auto-generated ID
+	 *         user_id:
+	 *           type: integer
+	 *           description: User's ID
+	 *         referral_code:
+	 *           type: string
+	 *           description: Unique referral code
+	 *         parent_id:
+	 *           type: integer
+	 *           description: Parent user's ID
+	 *         position:
+	 *           type: string
+	 *           description: Position in referral hierarchy
+	 *         created_at:
+	 *           type: string
+	 *           format: date-time
+	 *           description: Timestamp of record creation
+	 *       example:
+	 *         id: 1
+	 *         user_id: 2
+	 *         referral_code: "2234234ewwefefe"
+	 *         parent_id: 2
+	 *         position: "right"
+	 *         created_at: "2024-01-23T10:52:41Z"
 	 */
 
 	/**

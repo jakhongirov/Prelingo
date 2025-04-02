@@ -47,8 +47,10 @@ bot.onText(/\/start ?(.*)?/, async (msg, match) => {
 	console.log(foundUser);
 
 	if (param) {
-		if (!foundUser?.app_token?.includes(param)) {
-			await model.addToken(foundUser?.id, param);
+		if (foundUser) {
+			if (!foundUser?.app_token?.includes(param)) {
+				await model.addToken(foundUser?.id, param);
+			}
 		}
 
 		if (foundUser && foundUser.bot_lang == 'UZ') {
