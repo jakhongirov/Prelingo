@@ -6,9 +6,9 @@
    "contactBtnUz": "Kontaktni yuborish",
    "contactBtnRu": "Отправить контакт",
    "contactBtnEng": "Send contact",
-   "successfullyAddedUz": "Sizning so'rovingiz muvaffaqiyatli qabul qilindi, ilovaga qayting.",
-   "successfullyAddedRu": "Ваш запрос успешно получен, вернитесь в приложение.",
-   "successfullyAddedEng": "Your request has been successfully received, return to the app.",
+   "successfullyAddedUz": "Sizning so'rovingiz muvaffaqiyatli qabul qilindi, ilovaga qayting va kodni yozing:\n<pre>%code%</pre>",
+   "successfullyAddedRu": "Ваш запрос успешно принят, вернитесь в приложение и введите код:\n<pre>%code%</pre>",
+   "successfullyAddedEng": "Your request has been successfully received, return to the application and enter the code:\n<pre>%code%</pre>",
    "contactErrorUz": "Noto'g'ri kontakt yubordingiz.",
    "contactErrorRu": "Вы отправили не тот контакт.",
    "contactErrorEng": "You sent the wrong contact."

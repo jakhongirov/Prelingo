@@ -1,4 +1,5 @@
 import { fetch, fetchALL } from '../../lib/postgres';
+import { IOtp } from '../../types/otp';
 import { IUsers, IUser } from '../../types/users';
 
 const usersList = (limit: number, page: number): Promise<IUsers[] | null> => {
@@ -27,18 +28,6 @@ const userByID = (id: number | string | undefined): Promise<IUsers | null> => {
 
 	return fetch<IUsers>(QUERY, id);
 };
-const userByToken = (token: string | undefined): Promise<IUsers | null> => {
-	const QUERY: string = `
-      SELECT
-         *
-      FROM
-         users
-      WHERE
-         $1 = ANY(app_token);
-   `;
-
-	return fetch<IUsers>(QUERY, token);
-};
 const createUser = (
 	userData: IUser,
 	password: string,
@@ -49,23 +38,15 @@ const createUser = (
          users (
             phone_number,
             password,
-            referral_code,
-            app_token
+            referral_code
          ) VALUES (
             $1, 
             $2, 
-            $3,
-            ARRAY[$4]
+            $3
          ) RETURNING *;
    `;
 
-	return fetch<IUsers>(
-		QUERY,
-		userData.phone_number,
-		password,
-		referral_code,
-		userData.app_token,
-	);
+	return fetch<IUsers>(QUERY, userData.phone_number, password, referral_code);
 };
 const foundUserByEmail = (email: string) => {
 	const QUERY: string = `
@@ -91,22 +72,6 @@ const foundUserEmail = (email: string, id: string) => {
 
 	return fetch<IUsers>(QUERY, email, id);
 };
-const addToken = (
-	id: string | undefined,
-	app_token: string,
-): Promise<IUsers | null> => {
-	const QUERY = `
-      UPDATE
-         users
-      SET
-         app_token = array_append(app_token, $2)
-      WHERE
-         id = $1
-      RETURNING *;
-   `;
-
-	return fetch<IUsers>(QUERY, id, app_token);
-};
 const createUserEmail = (
 	email: string,
 	surname: string,
@@ -114,7 +79,6 @@ const createUserEmail = (
 	country: string,
 	region: string,
 	pass_hash: string,
-	app_token: string,
 ) => {
 	const QUERY = `
       INSERT INTO
@@ -124,16 +88,14 @@ const createUserEmail = (
             name,
             country,
             region,
-            password,
-            app_token
+            password
          ) VALUES (
             $1,
             $2,
             $3,
             $4,
             $5,
-            $6,
-            ARRAY[$7]
+            $6
          ) RETURNING *;
    `;
 
@@ -145,8 +107,46 @@ const createUserEmail = (
 		country,
 		region,
 		pass_hash,
-		app_token,
 	);
+};
+const foundOtp = (code: string) => {
+	const QUERY: string = `
+      SELECT
+         *
+      FROM
+         otp
+      WHERE
+         code = $1
+         and created_at >= NOW() - INTERVAL '5 minutes'
+         and status = true;
+   `;
+
+	return fetch<IOtp>(QUERY, code);
+};
+const editOtpStatus = (id: string | number) => {
+	const QUERY: string = `
+      UPDATE
+         otp
+      SET
+         status = false
+      WHERE
+         id = $1
+      RETURNING *;
+   `;
+
+	return fetch<IOtp>(QUERY, id);
+};
+const foundUserChatId = (chat_id: number | string) => {
+	const QUERY: string = `
+      SELECT
+         *
+      FROM
+         users
+      WHERE
+         chat_id = $1;
+   `;
+
+	return fetch<IUsers>(QUERY, chat_id);
 };
 const addUser = (
 	id: string,
@@ -315,12 +315,13 @@ const deleteUser = (id: number) => {
 export default {
 	usersList,
 	userByID,
-	userByToken,
 	createUser,
 	foundUserByEmail,
 	foundUserEmail,
-	addToken,
 	createUserEmail,
+	foundOtp,
+	editOtpStatus,
+	foundUserChatId,
 	addUser,
 	foundUser,
 	editSurname,

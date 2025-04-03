@@ -77,11 +77,6 @@ router
 	 *         bot_lang:
 	 *           type: string
 	 *           description: User's bot language
-	 *         app_token:
-	 *           type: array
-	 *           description: User's app tokens
-	 *           items:
-	 *             type: string
 	 *         telegram:
 	 *           type: boolean
 	 *           description: Whether the user registered via Telegram bot
@@ -104,7 +99,6 @@ router
 	 *         chat_id: 6546543
 	 *         bot_step: start
 	 *         bot_lang: uz
-	 *         app_token: ["wfmkefferfkerf"]
 	 *         telegram: true
 	 *         create_at: "2024-01-23T10:52:41Z"
 	 */
@@ -195,38 +189,6 @@ router
 
 	/**
 	 * @swagger
-	 * /user/{token}:
-	 *   get:
-	 *     summary: Get user data by Token
-	 *     tags: [Users]
-	 *     security:
-	 *       - token: []
-	 *     parameters:
-	 *       - in: path
-	 *         name: token
-	 *         required: true
-	 *         schema:
-	 *           type: integer
-	 *         description: User's ID
-	 *     responses:
-	 *       '200':
-	 *         description: User data retrieved successfully
-	 *         content:
-	 *           application/json:
-	 *             schema:
-	 *               $ref: '#/components/schemas/Users'
-	 *         headers:
-	 *           token:
-	 *             description: Token for authentication
-	 *             schema:
-	 *               type: string
-	 *       '500':
-	 *         description: Server error
-	 */
-	.get('/user/token/:token', users.GET_USER_TOKEN)
-
-	/**
-	 * @swagger
 	 * /user/register:
 	 *   post:
 	 *     summary: Register a new user
@@ -246,10 +208,6 @@ router
 	 *                 type: string
 	 *                 description: User's password
 	 *                 example: 1234
-	 *               app_token:
-	 *                 type: string
-	 *                 description: User's app token
-	 *                 example: enfjerflrefnjerfjkenrfker
 	 *     responses:
 	 *       '201':
 	 *         description: Successfully created a new user
@@ -299,10 +257,6 @@ router
 	 *                 type: string
 	 *                 description: User's  password
 	 *                 example: kimdir
-	 *               app_token:
-	 *                 type: string
-	 *                 description: User's  app_token
-	 *                 example: kimdir
 	 *     responses:
 	 *       '200':
 	 *         description: Successful login
@@ -314,6 +268,35 @@ router
 	 *         description: Server error
 	 */
 	.post('/user/email', users.REGISTER_EMAIL)
+
+	/**
+	 * @swagger
+	 * /user/otp:
+	 *   post:
+	 *     summary: OTP
+	 *     tags: [Users]
+	 *     requestBody:
+	 *       required: true
+	 *       content:
+	 *         application/json:
+	 *           schema:
+	 *             type: object
+	 *             properties:
+	 *                 code:
+	 *                   type: integer
+	 *                   description: OTP code
+	 *                   example: 566893
+	 *     responses:
+	 *       '200':
+	 *         description: Successful
+	 *         content:
+	 *           application/json:
+	 *             schema:
+	 *               $ref: '#/components/schemas/Users'
+	 *       '500':
+	 *          description: Server error
+	 */
+	.post('/user/otp', users.OTP)
 
 	/**
 	 * @swagger
@@ -964,11 +947,249 @@ router
 	.post('/referral/add', referrals.CREATE_REFERRAL)
 
 	// HISTORIES BALANCE
+	/**
+	 * @swagger
+	 * components:
+	 *   schemas:
+	 *     HistoriesBalance:
+	 *       type: object
+	 *       required:
+	 *         - user_id
+	 *       properties:
+	 *         id:
+	 *           type: integer
+	 *           description: Auto-generated ID
+	 *         user_id:
+	 *           type: integer
+	 *           description: User's ID
+	 *         category:
+	 *           type: string
+	 *           description: Bonu's categories
+	 *         amount:
+	 *           type: integer
+	 *           description: Amount
+	 *         created_at:
+	 *           type: string
+	 *           format: date-time
+	 *           description: Timestamp of record creation
+	 *       example:
+	 *         id: 1
+	 *         user_id: 2
+	 *         category: "RB"
+	 *         amount: 20
+	 *         created_at: "2024-01-23T10:52:41Z"
+	 */
+
+	/**
+	 * @swagger
+	 * tags:
+	 *    name: HistoriesBalance
+	 *    description: HistoriesBalance api documentation
+	 */
+
+	/**
+	 * @swagger
+	 * /histories/balance/list:
+	 *    get:
+	 *       summary: Returns a list of all histories balance, for Frontend developers
+	 *       tags: [HistoriesBalance]
+	 *       security:
+	 *          - token: []
+	 *       parameters:
+	 *          - in: header
+	 *            name: token
+	 *            required: true
+	 *            schema:
+	 *               type: string
+	 *            description: Authentication token
+	 *          - in: query
+	 *            name: limit
+	 *            schema:
+	 *               type: integer
+	 *            description: Limit for the number of histories balance in the list
+	 *          - in: query
+	 *            name: page
+	 *            schema:
+	 *               type: integer
+	 *            description: Page number for pagination
+	 *       responses:
+	 *         '200':
+	 *             description: A list of Histories Balance
+	 *             content:
+	 *                application/json:
+	 *                   schema:
+	 *                      type: array
+	 *                      items:
+	 *                         $ref: '#/components/schemas/HistoriesBalance'
+	 *         headers:
+	 *          token:
+	 *             description: Token for authentication
+	 *             schema:
+	 *                type: string
+	 *         '500':
+	 *           description: Server error
+	 */
 	.get('/histories/balance/list', historiesBalance.GET_LIST)
+
+	/**
+	 * @swagger
+	 * /histories/balance/{user_id}:
+	 *   get:
+	 *     summary: Get user data by ID
+	 *     tags: [HistoriesBalance]
+	 *     security:
+	 *       - token: []
+	 *     parameters:
+	 *       - in: header
+	 *         name: token
+	 *         required: true
+	 *         schema:
+	 *           type: string
+	 *         description: Authentication token
+	 *       - in: path
+	 *         name: user_id
+	 *         required: true
+	 *         schema:
+	 *           type: integer
+	 *         description: User's ID
+	 *     responses:
+	 *       '200':
+	 *         description: User data retrieved successfully
+	 *         content:
+	 *           application/json:
+	 *             schema:
+	 *               $ref: '#/components/schemas/HistoriesBalance'
+	 *         headers:
+	 *           token:
+	 *             description: Token for authentication
+	 *             schema:
+	 *               type: string
+	 *       '500':
+	 *         description: Server error
+	 */
 	.get('/histories/balance/:user_id', historiesBalance.GET_USER_ID)
 
 	// HISTORIES
+	/**
+	 * @swagger
+	 * components:
+	 *   schemas:
+	 *     Histories:
+	 *       type: object
+	 *       required:
+	 *         - user_id
+	 *       properties:
+	 *         id:
+	 *           type: integer
+	 *           description: Auto-generated ID
+	 *         user_id:
+	 *           type: integer
+	 *           description: User's ID
+	 *         amount:
+	 *           type: integer
+	 *           description: Amount
+	 *         user_count:
+	 *           type: integer
+	 *           description: paid user count (BR bonus)
+	 *         created_at:
+	 *           type: string
+	 *           format: date-time
+	 *           description: Timestamp of record creation
+	 *       example:
+	 *         id: 1
+	 *         user_id: 2
+	 *         amount: 20
+	 *         user_count: 10
+	 *         created_at: "2024-01-23T10:52:41Z"
+	 */
+
+	/**
+	 * @swagger
+	 * tags:
+	 *    name: Histories
+	 *    description: Histories api documentation
+	 */
+
+	/**
+	 * @swagger
+	 * /histories/list:
+	 *    get:
+	 *       summary: Returns a list of all histories, for Frontend developers
+	 *       tags: [Histories]
+	 *       security:
+	 *          - token: []
+	 *       parameters:
+	 *          - in: header
+	 *            name: token
+	 *            required: true
+	 *            schema:
+	 *               type: string
+	 *            description: Authentication token
+	 *          - in: query
+	 *            name: limit
+	 *            schema:
+	 *               type: integer
+	 *            description: Limit for the number of histories in the list
+	 *          - in: query
+	 *            name: page
+	 *            schema:
+	 *               type: integer
+	 *            description: Page number for pagination
+	 *       responses:
+	 *         '200':
+	 *             description: A list of Histories
+	 *             content:
+	 *                application/json:
+	 *                   schema:
+	 *                      type: array
+	 *                      items:
+	 *                         $ref: '#/components/schemas/Histories'
+	 *         headers:
+	 *          token:
+	 *             description: Token for authentication
+	 *             schema:
+	 *                type: string
+	 *         '500':
+	 *           description: Server error
+	 */
 	.get('/histories/list', histories.GET_LIST)
+
+	/**
+	 * @swagger
+	 * /histories/{user_id}:
+	 *   get:
+	 *     summary: Get user data by ID
+	 *     tags: [Histories]
+	 *     security:
+	 *       - token: []
+	 *     parameters:
+	 *       - in: header
+	 *         name: token
+	 *         required: true
+	 *         schema:
+	 *           type: string
+	 *         description: Authentication token
+	 *       - in: path
+	 *         name: user_id
+	 *         required: true
+	 *         schema:
+	 *           type: integer
+	 *         description: User's ID
+	 *     responses:
+	 *       '200':
+	 *         description: User data retrieved successfully
+	 *         content:
+	 *           application/json:
+	 *             schema:
+	 *               $ref: '#/components/schemas/Histories'
+	 *         headers:
+	 *           token:
+	 *             description: Token for authentication
+	 *             schema:
+	 *               type: string
+	 *       '500':
+	 *         description: Server error
+	 */
 	.get('/histories/:user_id', histories.GET_USER_ID);
 
 export default router;

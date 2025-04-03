@@ -17,6 +17,7 @@ import swaggerUI from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import session from 'express-session';
 import passport from './src/lib/passport';
+import { generateOTP } from './src/lib/functions';
 
 const publicFolderPath = path.join(__dirname, 'public');
 const imagesFolderPath = path.join(publicFolderPath, 'images');
@@ -42,101 +43,85 @@ const bot = new TelegramBot(process.env.BOT_TOKEN!, {
 
 bot.onText(/\/start ?(.*)?/, async (msg, match) => {
 	const chatId: number = msg.chat.id;
-	const param = match ? match[1]?.trim() : null;
 	const foundUser = await model.foundUser(chatId);
 
-	if (param) {
-		if (foundUser) {
-			if (!foundUser?.app_token?.includes(param)) {
-				await model.addToken(foundUser?.id, param);
+	if (foundUser && foundUser.bot_lang == 'UZ') {
+		bot.sendMessage(chatId, botText.startUz, {
+			reply_markup: {
+				keyboard: [
+					[
+						{
+							text: botText.contactBtnUz,
+							request_contact: true,
+						},
+					],
+				],
+				resize_keyboard: true,
+				one_time_keyboard: true,
+			},
+		}).then(async () => {
+			await model.editStep(chatId, 'contact');
+		});
+	} else if (foundUser && foundUser.bot_lang == 'RU') {
+		bot.sendMessage(chatId, botText.startRu, {
+			reply_markup: {
+				keyboard: [
+					[
+						{
+							text: botText.contactBtnRu,
+							request_contact: true,
+						},
+					],
+				],
+				resize_keyboard: true,
+				one_time_keyboard: true,
+			},
+		}).then(async () => {
+			await model.editStep(chatId, 'contact');
+		});
+	} else if (foundUser && foundUser.bot_lang == 'ENG') {
+		bot.sendMessage(chatId, botText.startEng, {
+			reply_markup: {
+				keyboard: [
+					[
+						{
+							text: botText.contactBtnEng,
+							request_contact: true,
+						},
+					],
+				],
+				resize_keyboard: true,
+				one_time_keyboard: true,
+			},
+		}).then(async () => {
+			await model.editStep(chatId, 'contact');
+		});
+	} else {
+		bot.sendMessage(chatId, botText.startText, {
+			reply_markup: {
+				keyboard: [
+					[
+						{
+							text: '🇺🇿 Uz',
+						},
+						{
+							text: '🇷🇺 Ру',
+						},
+						{
+							text: '🇬🇧 Eng',
+						},
+					],
+				],
+				resize_keyboard: true,
+				one_time_keyboard: true,
+			},
+		}).then(async () => {
+			if (foundUser) {
+				await model.editStep(chatId, 'language');
+			} else {
+				await model.createUser(chatId, 'language');
 			}
-		}
-
-		if (foundUser && foundUser.bot_lang == 'UZ') {
-			bot.sendMessage(chatId, botText.startUz, {
-				reply_markup: {
-					keyboard: [
-						[
-							{
-								text: botText.contactBtnUz,
-								request_contact: true,
-							},
-						],
-					],
-					resize_keyboard: true,
-					one_time_keyboard: true,
-				},
-			}).then(async () => {
-				await model.editStep(chatId, 'contact');
-			});
-		} else if (foundUser && foundUser.bot_lang == 'RU') {
-			bot.sendMessage(chatId, botText.startRu, {
-				reply_markup: {
-					keyboard: [
-						[
-							{
-								text: botText.contactBtnRu,
-								request_contact: true,
-							},
-						],
-					],
-					resize_keyboard: true,
-					one_time_keyboard: true,
-				},
-			}).then(async () => {
-				await model.editStep(chatId, 'contact');
-			});
-		} else if (foundUser && foundUser.bot_lang == 'ENG') {
-			bot.sendMessage(chatId, botText.startEng, {
-				reply_markup: {
-					keyboard: [
-						[
-							{
-								text: botText.contactBtnEng,
-								request_contact: true,
-							},
-						],
-					],
-					resize_keyboard: true,
-					one_time_keyboard: true,
-				},
-			}).then(async () => {
-				await model.editStep(chatId, 'contact');
-			});
-		} else {
-			const foundUserByParam = await model.foundUserByParam(param);
-			bot.sendMessage(chatId, botText.startText, {
-				reply_markup: {
-					keyboard: [
-						[
-							{
-								text: '🇺🇿 Uz',
-							},
-							{
-								text: '🇷🇺 Ру',
-							},
-							{
-								text: '🇬🇧 Eng',
-							},
-						],
-					],
-					resize_keyboard: true,
-					one_time_keyboard: true,
-				},
-			}).then(async () => {
-				if (foundUser) {
-					await model.editStep(chatId, 'language');
-				} else if (foundUserByParam) {
-					await model.addChatIDUser(
-						foundUserByParam.id!,
-						chatId,
-						'language',
-					);
-				} else {
-					await model.createUser(chatId, param, 'language');
-				}
-			});
-		}
+		});
 	}
 });
 
@@ -215,27 +200,61 @@ bot.on('contact', async (msg) => {
 
 	if (foundUser && foundUser.bot_step == 'contact') {
 		if (msg.contact!.user_id == msg.from!.id) {
-			const addPhoneNumber = await model.addPhoneNumber(chatId, phoneNumber);
+			const otpCode = await generateOTP(6);
+			await model.addOtp(otpCode, chatId);
 
-			if (addPhoneNumber) {
+			if (foundUser?.phone_number == phoneNumber) {
 				if (foundUser && foundUser.bot_lang == 'UZ') {
-					bot.sendMessage(chatId, botText.successfullyAddedUz).then(
-						async () => {
-							await model.editStep(chatId, 'success_add');
-						},
-					);
+					bot.sendMessage(
+						chatId,
+						botText.successfullyAddedUz.replace(/%code%/g, otpCode),
+					).then(async () => {
+						await model.editStep(chatId, 'success_add');
+					});
 				} else if (foundUser && foundUser.bot_lang == 'RU') {
-					bot.sendMessage(chatId, botText.successfullyAddedRu).then(
-						async () => {
-							await model.editStep(chatId, 'success_add');
-						},
-					);
+					bot.sendMessage(
+						chatId,
+						botText.successfullyAddedRu.replace(/%code%/g, otpCode),
+					).then(async () => {
+						await model.editStep(chatId, 'success_add');
+					});
 				} else if (foundUser && foundUser.bot_lang == 'ENG') {
-					bot.sendMessage(chatId, botText.successfullyAddedEng).then(
-						async () => {
+					bot.sendMessage(
+						chatId,
+						botText.successfullyAddedEng.replace(/%code%/g, otpCode),
+					).then(async () => {
+						await model.editStep(chatId, 'success_add');
+					});
+				}
+			} else {
+				const addPhoneNumber = await model.addPhoneNumber(
+					chatId,
+					phoneNumber,
+				);
+
+				if (addPhoneNumber) {
+					if (foundUser && foundUser.bot_lang == 'UZ') {
+						bot.sendMessage(
+							chatId,
+							botText.successfullyAddedUz.replace(/%code%/g, otpCode),
+						).then(async () => {
 							await model.editStep(chatId, 'success_add');
-						},
-					);
+						});
+					} else if (foundUser && foundUser.bot_lang == 'RU') {
+						bot.sendMessage(
+							chatId,
+							botText.successfullyAddedRu.replace(/%code%/g, otpCode),
+						).then(async () => {
+							await model.editStep(chatId, 'success_add');
+						});
+					} else if (foundUser && foundUser.bot_lang == 'ENG') {
+						bot.sendMessage(
+							chatId,
+							botText.successfullyAddedEng.replace(/%code%/g, otpCode),
+						).then(async () => {
+							await model.editStep(chatId, 'success_add');
+						});
+					}
 				}
 			}
 		} else {

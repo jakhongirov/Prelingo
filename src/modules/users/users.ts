@@ -85,38 +85,6 @@ const GET_USER_ID = async (req: Request, res: Response) => {
 	}
 };
 
-const GET_USER_TOKEN = async (req: Request, res: Response) => {
-	try {
-		const token: string | undefined = req.params.token
-			? req.params.token
-			: undefined;
-
-		const userByToken: IUsers | null = await model.userByToken(token);
-
-		if (userByToken) {
-			res.status(200).json({
-				status: 200,
-				message: 'Success',
-				data: userByToken,
-			});
-			return;
-		} else {
-			res.status(404).json({
-				status: 404,
-				message: 'Not found',
-			});
-			return;
-		}
-	} catch (error) {
-		console.log(error);
-		res.status(500).json({
-			status: 500,
-			message: 'Interval Server Error',
-		});
-		return;
-	}
-};
-
 const REGISTER_USER = async (req: Request, res: Response) => {
 	try {
 		const userData: IUser = req.body;
@@ -169,20 +137,17 @@ const REGISTER_USER = async (req: Request, res: Response) => {
 
 const REGISTER_EMAIL = async (req: Request, res: Response) => {
 	try {
-		const { email, surname, name, country, region, password, app_token } =
-			req.body as {
-				email: string;
-				surname: string;
-				name: string;
-				country: string;
-				region: string;
-				password: string;
-				app_token: string;
-			};
+		const { email, surname, name, country, region, password } = req.body as {
+			email: string;
+			surname: string;
+			name: string;
+			country: string;
+			region: string;
+			password: string;
+		};
 		const foundUserByEmail = await model.foundUserByEmail(email);
 
 		if (foundUserByEmail) {
-			await model.addToken(foundUserByEmail!.id, app_token);
 			const token = await new JWT({
 				id: foundUserByEmail?.id,
 			}).sign();
@@ -202,7 +167,6 @@ const REGISTER_EMAIL = async (req: Request, res: Response) => {
 				country,
 				region,
 				pass_hash,
-				app_token,
 			);
 
 			if (createUserEmail) {
@@ -223,6 +187,56 @@ const REGISTER_EMAIL = async (req: Request, res: Response) => {
 				});
 				return;
 			}
+		}
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({
+			status: 500,
+			message: 'Interval Server Error',
+		});
+		return;
+	}
+};
+
+const OTP = async (req: Request, res: Response) => {
+	try {
+		const { code } = req.body as {
+			code: string;
+		};
+
+		const foundOtp = await model.foundOtp(code);
+
+		if (foundOtp) {
+			const foundUserChatId = await model.foundUserChatId(
+				foundOtp?.chat_id!,
+			);
+
+			if (foundUserChatId) {
+				await model.editOtpStatus(foundOtp?.id!);
+				const token = await new JWT({
+					id: foundUserChatId?.id,
+				}).sign();
+
+				res.status(200).json({
+					status: 200,
+					message: 'Success',
+					data: foundUserChatId,
+					token: token,
+				});
+				return;
+			} else {
+				res.status(404).json({
+					status: 404,
+					message: 'Not found',
+				});
+				return;
+			}
+		} else {
+			res.status(400).json({
+				status: 400,
+				message: 'Expired code or invalid',
+			});
+			return;
 		}
 	} catch (error) {
 		console.log(error);
@@ -257,7 +271,6 @@ const GOOGLE = async (req: Request, res: Response) => {
 		);
 
 		if (foundUserByEmail) {
-			// await model.addToken(foundUserByEmail!.id, app_token);
 			const token = await new JWT({
 				id: foundUserByEmail?.id,
 			}).sign();
@@ -328,7 +341,6 @@ const APPLE = async (req: Request, res: Response) => {
 		);
 
 		if (foundUserByEmail) {
-			// await model.addToken(foundUserByEmail!.id, app_token);
 			const token = await new JWT({
 				id: foundUserByEmail?.id,
 			}).sign();
@@ -389,7 +401,6 @@ const LOGIN = async (req: Request, res: Response) => {
 			);
 
 			if (validPass) {
-				await model.addToken(foundUser!.id, userData.app_token);
 				const token = await new JWT({
 					id: foundUser?.id,
 				}).sign();
@@ -530,9 +541,9 @@ const DELETE_USER = async (req: Request, res: Response) => {
 export default {
 	GET_LIST,
 	GET_USER_ID,
-	GET_USER_TOKEN,
 	REGISTER_USER,
 	REGISTER_EMAIL,
+	OTP,
 	GOOGLE,
 	APPLE,
 	LOGIN,

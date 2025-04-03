@@ -1,34 +1,7 @@
 import { fetch } from './src/lib/postgres';
+import { IOtp } from './src/types/otp';
 import { IUsers } from './src/types/users';
 
-const addToken = (
-	id: string | undefined,
-	param: string,
-): Promise<IUsers | null> => {
-	const QUERY: string = `
-      UPDATE
-         users
-      SET
-         array_append(app_token, $2)
-      WHERE
-         id = $1
-      RETURNING *;
-   `;
-
-	return fetch<IUsers>(QUERY, id, param);
-};
-const foundUserByParam = (param: string): Promise<IUsers | null> => {
-	const QUERY: string = `
-      SELECT 
-         * 
-      FROM 
-         users 
-      WHERE 
-         app_token @> ARRAY[$1];
-   `;
-
-	return fetch<IUsers>(QUERY, param);
-};
 const foundUser = (chatId: number): Promise<IUsers | null> => {
 	const QUERY: string = `
       SELECT
@@ -60,27 +33,21 @@ const addChatIDUser = (
 
 	return fetch<IUsers>(QUERY, id, chatId, step);
 };
-const createUser = (
-	chatId: number,
-	param: string,
-	step: string,
-): Promise<IUsers | null> => {
+const createUser = (chatId: number, step: string): Promise<IUsers | null> => {
 	const QUERY: string = `
       INSERT INTO
          users (
             chat_id,
-            app_token,
             bot_step,
             telegram
          ) VALUES (
             $1,
-            ARRAY[$2],
-            $3,
+            $2,
             true
          ) RETURNING *;
    `;
 
-	return fetch<IUsers>(QUERY, chatId, param, step);
+	return fetch<IUsers>(QUERY, chatId, step);
 };
 const editStep = (chatId: number, step: string): Promise<IUsers | null> => {
 	const QUERY: string = `
@@ -112,18 +79,39 @@ const addPhoneNumber = (
 	chatId: number,
 	phoneNumber: string,
 ): Promise<IUsers | null> => {
-	const QUERY: string = ``;
+	const QUERY: string = `
+      UPDATE
+         users
+      SET
+         phone_number = $2
+      WHERE
+         chat_id = $1
+      RETURNING *;
+   `;
 
 	return fetch<IUsers>(QUERY, chatId, phoneNumber);
 };
+const addOtp = (otpCode: string, chatId: number) => {
+	const QUERY: string = `
+      INSERT INTO
+         otp (
+            code,
+            chat_id
+         )  VALUES (
+            $1,
+            $2
+         ) RETURNING *;
+   `;
+
+	return fetch<IOtp>(QUERY, otpCode, chatId);
+};
 
 export default {
-	addToken,
-	foundUserByParam,
 	foundUser,
 	addChatIDUser,
 	createUser,
 	editStep,
 	addBotLang,
 	addPhoneNumber,
+	addOtp,
 };

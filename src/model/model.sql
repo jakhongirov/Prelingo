@@ -14,7 +14,6 @@ CREATE TABLE users (
    chat_id bigint,
    bot_step text,
    bot_lang text,
-   app_token text [],
    telegram boolean DEFAULT false,
    create_at timestamptz DEFAULT CURRENT_TIMESTAMP
 );
@@ -27,6 +26,14 @@ CREATE TABLE devices (
    app_lang text,
    platform text,
    create_at timestamptz DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE otp (
+   id bigserial PRIMARY KEY,
+   chat_id bigint,
+   code text,
+   status boolean DEFAULT true,
+   created_at timestamptz DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE referrals (
