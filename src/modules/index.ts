@@ -884,8 +884,83 @@ router
 	 *           description: Server error
 	 */
 	.get('/referrals/list', AUTH, referrals.GET_LIST)
-
+	/**
+	 * @swagger
+	 * /referrals/{referral_code}:
+	 *    get:
+	 *       summary: Returns user's list of all referral
+	 *       tags: [Referrals]
+	 *       security:
+	 *          - token: []
+	 *       parameters:
+	 *          - in: header
+	 *            name: token
+	 *            required: true
+	 *            schema:
+	 *               type: string
+	 *            description: Authentication token
+	 *          - in: path
+	 *            name: referral_code
+	 *            schema:
+	 *               type: integer
+	 *            description: User's referral code
+	 *       responses:
+	 *         '200':
+	 *             description: A list of user's referral
+	 *             content:
+	 *                application/json:
+	 *                   schema:
+	 *                      type: array
+	 *                      items:
+	 *                         $ref: '#/components/schemas/Referrals'
+	 *         headers:
+	 *          token:
+	 *             description: Token for authentication
+	 *             schema:
+	 *                type: string
+	 *         '500':
+	 *           description: Server error
+	 */
 	.get('/referrals/:referral_code', referrals.GET_REFERRALS)
+
+	/**
+	 * @swagger
+	 * /referral/add:
+	 *    post:
+	 *       summary: Add user's referral
+	 *       tags: [Referrals]
+	 *       parameters:
+	 *          - in: header
+	 *            name: token
+	 *            required: true
+	 *            schema:
+	 *               type: string
+	 *            description: Authentication token
+	 *       requestBody:
+	 *          required: true
+	 *          content:
+	 *             application/json:
+	 *                schema:
+	 *                   type: object
+	 *                   properties:
+	 *                      user_id:
+	 *                         type: integer
+	 *                         description: User's id
+	 *                         example: 2
+	 *                      referral_code:
+	 *                         type: string
+	 *                         description: User's referral code with position and/or parent id
+	 *                         example: 20fa94f8-62e2-4fda-a678-4b8ab30e321a/right/4
+	 *       responses:
+	 *          '201':
+	 *             description: Successfully created a new user's referral
+	 *             content:
+	 *                application/json:
+	 *                   schema:
+	 *                      $ref: '#/components/schemas/Referrals'
+	 *          '500':
+	 *             description: Server error
+	 */
 	.post('/referral/add', referrals.CREATE_REFERRAL)
 
 	// HISTORIES BALANCE
