@@ -208,6 +208,9 @@ bot.on('contact', async (msg) => {
 					bot.sendMessage(
 						chatId,
 						botText.successfullyAddedUz.replace(/%code%/g, otpCode),
+						{
+							parse_mode: 'HTML',
+						},
 					).then(async () => {
 						await model.editStep(chatId, 'success_add');
 					});
@@ -215,6 +218,9 @@ bot.on('contact', async (msg) => {
 					bot.sendMessage(
 						chatId,
 						botText.successfullyAddedRu.replace(/%code%/g, otpCode),
+						{
+							parse_mode: 'HTML',
+						},
 					).then(async () => {
 						await model.editStep(chatId, 'success_add');
 					});
@@ -222,6 +228,9 @@ bot.on('contact', async (msg) => {
 					bot.sendMessage(
 						chatId,
 						botText.successfullyAddedEng.replace(/%code%/g, otpCode),
+						{
+							parse_mode: 'HTML',
+						},
 					).then(async () => {
 						await model.editStep(chatId, 'success_add');
 					});
@@ -237,6 +246,9 @@ bot.on('contact', async (msg) => {
 						bot.sendMessage(
 							chatId,
 							botText.successfullyAddedUz.replace(/%code%/g, otpCode),
+							{
+								parse_mode: 'HTML',
+							},
 						).then(async () => {
 							await model.editStep(chatId, 'success_add');
 						});
@@ -244,6 +256,9 @@ bot.on('contact', async (msg) => {
 						bot.sendMessage(
 							chatId,
 							botText.successfullyAddedRu.replace(/%code%/g, otpCode),
+							{
+								parse_mode: 'HTML',
+							},
 						).then(async () => {
 							await model.editStep(chatId, 'success_add');
 						});
@@ -251,6 +266,9 @@ bot.on('contact', async (msg) => {
 						bot.sendMessage(
 							chatId,
 							botText.successfullyAddedEng.replace(/%code%/g, otpCode),
+							{
+								parse_mode: 'HTML',
+							},
 						).then(async () => {
 							await model.editStep(chatId, 'success_add');
 						});
