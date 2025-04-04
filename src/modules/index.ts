@@ -267,7 +267,7 @@ router
 	 *       '500':
 	 *         description: Server error
 	 */
-	.post('/user/email', users.REGISTER_EMAIL)
+	.post('/user/register/email', users.REGISTER_EMAIL)
 
 	/**
 	 * @swagger
