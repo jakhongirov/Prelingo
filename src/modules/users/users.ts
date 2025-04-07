@@ -159,6 +159,7 @@ const REGISTER_EMAIL = async (req: Request, res: Response) => {
 			});
 			return;
 		} else {
+			const referral_code = uuidv4();
 			const pass_hash = await bcryptjs.hash(password, 10);
 			const createUserEmail = await model.createUserEmail(
 				email,
@@ -167,6 +168,7 @@ const REGISTER_EMAIL = async (req: Request, res: Response) => {
 				country,
 				region,
 				pass_hash,
+				referral_code,
 			);
 
 			if (createUserEmail) {

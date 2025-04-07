@@ -79,6 +79,7 @@ const createUserEmail = (
 	country: string,
 	region: string,
 	pass_hash: string,
+	referral_code: string,
 ) => {
 	const QUERY = `
       INSERT INTO
@@ -88,14 +89,16 @@ const createUserEmail = (
             name,
             country,
             region,
-            password
+            password,
+            referral_code
          ) VALUES (
             $1,
             $2,
             $3,
             $4,
             $5,
-            $6
+            $6,
+            $7
          ) RETURNING *;
    `;
 
@@ -107,6 +110,7 @@ const createUserEmail = (
 		country,
 		region,
 		pass_hash,
+		referral_code,
 	);
 };
 const foundOtp = (code: string) => {
