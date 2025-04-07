@@ -34,16 +34,16 @@ const createUser = (
 	referral_code: string,
 ) => {
 	const QUERY: string = `
-      INSERT INTO
-         users (
-            phone_number,
-            password,
-            referral_code
-         ) VALUES (
-            $1, 
-            $2, 
-            $3
-         ) RETURNING *;
+   INSERT INTO 
+      users (
+         phone_number,
+         password,
+         referral_code
+      ) VALUES (
+         $1, 
+         $2, 
+         $3
+      ) RETURNING *;
    `;
 
 	return fetch<IUsers>(QUERY, userData.phone_number, password, referral_code);
