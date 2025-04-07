@@ -65,6 +65,12 @@ router
 	 *         balance:
 	 *           type: integer
 	 *           description: User's balance
+	 *         image_url:
+	 *           type: string
+	 *           description: User's image url
+	 *         image_name:
+	 *           type: string
+	 *           description: User's image name
 	 *         referral_code:
 	 *           type: string
 	 *           description: User's referral code
@@ -391,6 +397,50 @@ router
 	 *         description: Server error
 	 */
 	.post('/user/login', users.LOGIN)
+
+	/**
+	 * @swagger
+	 * /user/edit/avatar/{id}:
+	 *   put:
+	 *     summary: Edit user's avatar
+	 *     tags: [Users]
+	 *     parameters:
+	 *       - in: header
+	 *         name: token
+	 *         required: true
+	 *         schema:
+	 *           type: string
+	 *         description: Authentication token
+	 *       - in: path
+	 *         name: id
+	 *         required: true
+	 *         schema:
+	 *           type: integer
+	 *         description: User's ID
+	 *     security:
+	 *       - token: []
+	 *     requestBody:
+	 *       required: true
+	 *       content:
+	 *         multipart/form-data:
+	 *           schema:
+	 *             type: object
+	 *             properties:
+	 *               image:
+	 *                 type: string
+	 *                 format: binary
+	 *                 description: User's avatar image
+	 *     responses:
+	 *       '201':
+	 *         description: Successfully edited user's avatar
+	 *         content:
+	 *           application/json:
+	 *             schema:
+	 *               $ref: '#/components/schemas/Users'
+	 *       '500':
+	 *         description: Server error
+	 */
+	.put('/user/edit/avatar/:id', AUTH, upload.single('image'), users.ADD_AVATAR)
 
 	/**
 	 * @swagger

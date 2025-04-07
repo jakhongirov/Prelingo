@@ -10,6 +10,8 @@ interface IUsers {
 	region?: string | null;
 	count_stars?: number | null;
 	balance?: number;
+	image_url?: string;
+	image_name?: string;
 	referral_code?: string;
 	chat_id?: number;
 	bot_step?: string;

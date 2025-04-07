@@ -438,6 +438,44 @@ const LOGIN = async (req: Request, res: Response) => {
 	}
 };
 
+const ADD_AVATAR = async (req: Request, res: Response) => {
+	try {
+		const uploadAvatar = req.file;
+		const id: number | undefined = req.params.id
+			? Number(req.params.id)
+			: undefined;
+
+		const imgUrl = uploadAvatar
+			? `${process.env.URL}/${uploadAvatar?.filename}`
+			: null;
+		const imgName = uploadAvatar ? uploadAvatar?.filename : null;
+
+		const editUserAvatar = await model.editUserAvatar(id, imgUrl, imgName);
+
+		if (editUserAvatar) {
+			res.status(200).json({
+				status: 200,
+				message: 'Success',
+				data: editUserAvatar,
+			});
+			return;
+		} else {
+			res.status(400).json({
+				status: 400,
+				message: 'Bad request',
+			});
+			return;
+		}
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({
+			status: 500,
+			message: 'Interval Server Error',
+		});
+		return;
+	}
+};
+
 const EDIT_USER = async (req: Request, res: Response) => {
 	try {
 		const userData: IUsers = req.body;
@@ -549,6 +587,7 @@ export default {
 	GOOGLE,
 	APPLE,
 	LOGIN,
+	ADD_AVATAR,
 	EDIT_USER,
 	DELETE_USER,
 };

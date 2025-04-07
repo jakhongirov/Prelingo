@@ -10,6 +10,8 @@ CREATE TABLE users (
    region text,
    count_starts int,
    balance bigint DEFAULT 0,
+   image_url text,
+   image_name text,
    referral_code text,
    chat_id bigint,
    bot_step text,

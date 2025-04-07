@@ -37,6 +37,8 @@ const referralsList = (
             r.id, 
             u.id AS user_id, 
             u.name, 
+            u.surname,
+            u.image_url,
             r.referral_code, 
             r.parent_id,
             r.position,
@@ -55,6 +57,8 @@ const referralsList = (
             r.id, 
             u.id, 
             u.name, 
+            u.surname,
+            u.image_url,
             r.referral_code,
             r.parent_id,
             r.position,
@@ -69,7 +73,7 @@ const referralsList = (
             rc.user_id = r.parent_id
       )
       SELECT 
-         id, user_id, name, referral_code, parent_id, position, level
+         id, user_id, name, surname, image_url, referral_code, parent_id, position, level
       FROM
          referral_chain
       ORDER BY 

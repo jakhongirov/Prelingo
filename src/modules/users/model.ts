@@ -187,6 +187,24 @@ const foundUser = (data: string | undefined) => {
 
 	return fetch<IUsers>(QUERY, data);
 };
+const editUserAvatar = (
+	id: string | number | undefined,
+	imgUrl: string | null,
+	imgName: string | null,
+) => {
+	const QUERY: string = `
+      UPDATE
+         users
+      SET
+         image_url = $2,
+         image_name = $3
+      WHERE
+         id = $1
+      RETURNING *;s
+   `;
+
+	return fetch<IUsers>(QUERY, id, imgUrl, imgName);
+};
 const editSurname = (id: string, surnmae: string) => {
 	const QUERY: string = `
       UPDATE
@@ -328,6 +346,7 @@ export default {
 	foundUserChatId,
 	addUser,
 	foundUser,
+	editUserAvatar,
 	editSurname,
 	editName,
 	editPhoneNumber,
