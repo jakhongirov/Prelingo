@@ -976,7 +976,7 @@ router
 	 *          - in: path
 	 *            name: referral_code
 	 *            schema:
-	 *               type: integer
+	 *               type: string
 	 *            description: User's referral code
 	 *       responses:
 	 *         '200':
