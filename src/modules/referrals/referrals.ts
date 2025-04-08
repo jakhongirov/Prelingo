@@ -59,16 +59,17 @@ const GET_REFERRALS = async (req: Request, res: Response) => {
 
 			const data = await buildTree(referralsList!);
 			const user = {
-				id: foundUserByReferralCode.id,
+				id: Number(referralsList!.length + 1),
+				user_id: foundUserByReferralCode.id,
 				name: foundUserByReferralCode.name,
 				surname: foundUserByReferralCode.surname,
 				image_url: foundUserByReferralCode.image_url,
-			}
+			};
 
 			res.status(200).json({
 				status: 200,
 				message: 'Success',
-				data: [foundUserByReferralCode, ...data],
+				data: [user, ...data],
 				referraling_user: referringUser,
 			});
 			return;
