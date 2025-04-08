@@ -13,6 +13,7 @@ interface IUsers {
 	image_url?: string;
 	image_name?: string;
 	referral_code?: string;
+	referral_status?: boolean;
 	chat_id?: number;
 	bot_step?: string;
 	bot_lang?: string;

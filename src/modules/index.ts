@@ -869,6 +869,47 @@ router
 
 	/**
 	 * @swagger
+	 * components:
+	 *   schemas:
+	 *     Promocodes:
+	 *       type: object
+	 *       required:
+	 *         - referral_code
+	 *       properties:
+	 *         id:
+	 *           type: integer
+	 *           description: Auto-generated ID
+	 *         referral_code:
+	 *           type: string
+	 *           description: Unique referral code
+	 *         parent_id:
+	 *           type: integer
+	 *           description: Parent user's ID
+	 *         position:
+	 *           type: string
+	 *           description: Position in referral hierarchy
+	 *         promocode:
+	 *           type: string
+	 *           description: Promocode
+	 *         status:
+	 *           type: boolean
+	 *           description: Promocode is active
+	 *         created_at:
+	 *           type: string
+	 *           format: date-time
+	 *           description: Timestamp of record creation
+	 *       example:
+	 *         id: 1
+	 *         referral_code: "2234234ewwefefe"
+	 *         parent_id: 2
+	 *         position: "right"
+	 *         promocode: "Abf123"
+	 *         status: true
+	 *         created_at: "2024-01-23T10:52:41Z"
+	 */
+
+	/**
+	 * @swagger
 	 * tags:
 	 *    name: Referrals
 	 *    description: Referrals api documentation
@@ -958,6 +999,49 @@ router
 
 	/**
 	 * @swagger
+	 * /referrals/generate/promocode:
+	 *   post:
+	 *     summary: Generate promocode
+	 *     tags: [Referrals]
+	 *     parameters:
+	 *       - in: header
+	 *         name: token
+	 *         required: true
+	 *         schema:
+	 *           type: string
+	 *         description: Authentication token
+	 *     requestBody:
+	 *       required: true
+	 *       content:
+	 *         application/json:
+	 *           schema:
+	 *             type: object
+	 *             properties:
+	 *               referral_code:
+	 *                 type: string
+	 *                 description: User's referral code
+	 *                 example: jkenbfurfguihrwe1342343
+	 *               position:
+	 *                 type: string
+	 *                 description: Position in referral hierarchy
+	 *                 example: left
+	 *               parent_id:
+	 *                 type: integer
+	 *                 description: Parent user's ID
+	 *     responses:
+	 *       '201':
+	 *         description: Successfully generated a new promocode
+	 *         content:
+	 *           application/json:
+	 *             schema:
+	 *               $ref: '#/components/schemas/Promocodes'
+	 *       '500':
+	 *         description: Server error
+	 */
+	.post('/referrals/generate/promocode', AUTH, referrals.GENERATE_CODE)
+
+	/**
+	 * @swagger
 	 * /referral/add:
 	 *    post:
 	 *       summary: Add user's referral
@@ -980,10 +1064,10 @@ router
 	 *                         type: integer
 	 *                         description: User's id
 	 *                         example: 2
-	 *                      referral_code:
+	 *                      promocode:
 	 *                         type: string
-	 *                         description: User's referral code with position and/or parent id
-	 *                         example: 20fa94f8-62e2-4fda-a678-4b8ab30e321a/right/4
+	 *                         description: generated promocode
+	 *                         example: abf123
 	 *       responses:
 	 *          '201':
 	 *             description: Successfully created a new user's referral

@@ -30,4 +30,15 @@ const generateOTP = (length: number) => {
 	return otp;
 };
 
-export { buildTree, generateOTP };
+function generatePromoCode(length: number = 6): string {
+	const chars: string =
+		'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	let promoCode: string = '';
+	for (let i = 0; i < length; i++) {
+		const randomIndex: number = Math.floor(Math.random() * chars.length);
+		promoCode += chars[randomIndex];
+	}
+	return promoCode;
+}
+
+export { buildTree, generateOTP, generatePromoCode };

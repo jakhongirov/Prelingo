@@ -1,5 +1,6 @@
 import { fetch, fetchALL } from '../../lib/postgres';
 import { IHistoriesBalance } from '../../types/history-balance';
+import { IPromocode } from '../../types/promocode';
 import { IReferrals, ILevel } from '../../types/referrals';
 import { IUsers } from '../../types/users';
 
@@ -116,6 +117,47 @@ const foundUserByReferralCode = (
 
 	return fetch<IUsers>(QUERY, referral_code);
 };
+const addPromocode = (
+	referral_code: string,
+	postion: string,
+	parent_id: number,
+	promoCode: string,
+) => {
+	const QUERY: string = `
+      INSERT INTO
+         promocodes (
+            referral_code,
+            position,
+            parent_id,
+            promocode
+         ) VALUES (
+            $1,
+            $2,
+            $3,
+            $4
+         ) RETURNING *;
+   `;
+
+	return fetch<IPromocode>(
+		QUERY,
+		referral_code,
+		postion,
+		parent_id,
+		promoCode,
+	);
+};
+const findPromocode = (promocode: string) => {
+	const QUERY: string = `
+      SELECT
+         *
+      FROM
+         promocodes
+      WHERE
+         promocode = $1 and status = true;
+   `;
+
+	return fetch<IPromocode>(QUERY, promocode);
+};
 const checkReferral = (referral_code: string): Promise<IReferrals[] | null> => {
 	const QUERY: string = `
       SELECT
@@ -180,6 +222,32 @@ const createReferral = (
 
 	return fetch<IReferrals>(QUERY, user_id, referral_code, parent_id, position);
 };
+const editReferralStatus = (user_id: string | number) => {
+	const QUERY = `
+      UPDATE
+         users
+      SET
+         referral_status = true
+      WHERE
+         id = $1
+      RETURNING *;
+   `;
+
+	return fetch<IUsers>(QUERY, user_id);
+};
+const deletePromocode = (promocode: string) => {
+	const QUERY: string = `
+      UPDATE
+         promocodes
+      SET
+         status = false
+      WHERE
+         promocode = $1
+      RETURNING *;
+   `;
+
+	return fetch<IPromocode>(QUERY, promocode);
+};
 const editUserBalance = (
 	user_id: number | string,
 	amount: number,
@@ -220,9 +288,13 @@ export default {
 	referralList,
 	referralsList,
 	foundUserByReferralCode,
+	addPromocode,
+	findPromocode,
 	checkReferral,
 	checkActive,
 	createReferral,
+	editReferralStatus,
+	deletePromocode,
 	editUserBalance,
 	addHistoryBalance,
 	referringUser,

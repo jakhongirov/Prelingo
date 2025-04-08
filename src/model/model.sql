@@ -13,6 +13,7 @@ CREATE TABLE users (
    image_url text,
    image_name text,
    referral_code text,
+   referral_status boolean DEFAULT false,
    chat_id bigint,
    bot_step text,
    bot_lang text,
@@ -44,6 +45,16 @@ CREATE TABLE referrals (
    referral_code text,
    parent_id bigint,
    position text,
+   create_at timestamptz DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE promocodes (
+   id bigserial PRIMARY KEY,
+   referral_code text,
+   parent_id bigint,
+   position text,
+   promocode text,
+   status boolean DEFAULT true,
    create_at timestamptz DEFAULT CURRENT_TIMESTAMP
 );
 
