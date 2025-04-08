@@ -59,7 +59,7 @@ const GET_REFERRALS = async (req: Request, res: Response) => {
 
 			const data = await buildTree(referralsList!);
 			const user = {
-				id: Number(referralsList!.length + 1),
+				id: "your",
 				user_id: foundUserByReferralCode.id,
 				name: foundUserByReferralCode.name,
 				surname: foundUserByReferralCode.surname,
