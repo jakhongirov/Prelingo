@@ -105,6 +105,19 @@ const addOtp = (otpCode: string, chatId: number) => {
 
 	return fetch<IOtp>(QUERY, otpCode, chatId);
 };
+const addReferral = (chatId: number, referral_code: string) => {
+	const QUERY = `
+      UPDATE
+         users
+      SET
+         referral_code = $2
+      WHERE
+         chat_id = $1
+      RETURNING *;
+   `;
+
+	return fetch<IUsers>(QUERY, chatId, referral_code);
+};
 
 export default {
 	foundUser,
@@ -114,4 +127,5 @@ export default {
 	addBotLang,
 	addPhoneNumber,
 	addOtp,
+	addReferral,
 };

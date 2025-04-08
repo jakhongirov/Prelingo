@@ -18,6 +18,7 @@ import swaggerJsDoc from 'swagger-jsdoc';
 import session from 'express-session';
 import passport from './src/lib/passport';
 import { generateOTP } from './src/lib/functions';
+import { v4 as uuidv4 } from 'uuid';
 
 const publicFolderPath = path.join(__dirname, 'public');
 const imagesFolderPath = path.join(publicFolderPath, 'images');
@@ -242,6 +243,8 @@ bot.on('contact', async (msg) => {
 				);
 
 				if (addPhoneNumber) {
+					const referral_code = uuidv4();
+					await model.addReferral(chatId, referral_code);
 					if (foundUser && foundUser.bot_lang == 'UZ') {
 						bot.sendMessage(
 							chatId,
