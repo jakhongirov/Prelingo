@@ -81,7 +81,7 @@ const GET_REFERRALS = async (req: Request, res: Response) => {
 
 const GENERATE_CODE = async (req: Request, res: Response) => {
 	try {
-		const { referral_code, postion, parent_id } = req.body;
+		const { referral_code, position, parent_id } = req.body;
 		const foundUserByReferralCode = await model.foundUserByReferralCode(
 			referral_code,
 		);
@@ -90,7 +90,7 @@ const GENERATE_CODE = async (req: Request, res: Response) => {
 			const promoCode = generatePromoCode(6);
 			const addPromocode = await model.addPromocode(
 				referral_code,
-				postion,
+				position,
 				parent_id,
 				promoCode,
 			);
