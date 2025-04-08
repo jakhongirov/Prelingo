@@ -49,26 +49,21 @@ const GET_REFERRALS = async (req: Request, res: Response) => {
 			? req.params.referral_code
 			: undefined;
 
+		const foundUserByReferralCode = await model.foundUserByReferralCode(
+			referral_code!,
+		);
 		const referralsList = await model.referralsList(referral_code);
 		const referringUser = await model.referringUser(referral_code);
 
 		const data = await buildTree(referralsList!);
 
-		if (referralsList && referralsList.length > 0) {
-			res.status(200).json({
-				status: 200,
-				message: 'Success',
-				data: data,
-				referraling_user: referringUser,
-			});
-			return;
-		} else {
-			res.status(404).json({
-				status: 404,
-				message: 'Not found',
-			});
-			return;
-		}
+		res.status(200).json({
+			status: 200,
+			message: 'Success',
+			data: [foundUserByReferralCode, ...data],
+			referraling_user: referringUser,
+		});
+		return;
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({
