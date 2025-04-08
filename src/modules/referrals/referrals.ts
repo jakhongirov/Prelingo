@@ -149,7 +149,7 @@ const CREATE_REFERRAL = async (req: Request, res: Response) => {
 
 				if (checkReferral && checkReferral.length < 2) {
 					const createReferral = await model.createReferral(
-						user_id.user_id,
+						user_id,
 						findPromocode.referral_code,
 						foundUserByReferralCode.id!,
 						findPromocode?.position,
