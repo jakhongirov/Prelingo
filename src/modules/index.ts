@@ -59,7 +59,7 @@ router
 	 *         region:
 	 *           type: string
 	 *           description: User's region
-	 *         count_starts:
+	 *         count_stars:
 	 *           type: integer
 	 *           description: User's count starts
 	 *         balance:
@@ -99,7 +99,7 @@ router
 	 *         password: fefmefjerfe
 	 *         country: Uz
 	 *         region: Tashkent
-	 *         count_starts: 9
+	 *         count_stars: 9
 	 *         balance: 0
 	 *         referral_code: "5rfgytrdxvgt5resxvgt54"
 	 *         chat_id: 6546543
@@ -496,7 +496,7 @@ router
 	 *                 type: string
 	 *                 description: User's region
 	 *                 example: Tashkent
-	 *               count_starts:
+	 *               count_stars:
 	 *                 type: integer
 	 *                 description: User's count starts
 	 *                 example: 12
