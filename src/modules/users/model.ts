@@ -200,7 +200,7 @@ const editUserAvatar = (
          image_name = $3
       WHERE
          id = $1
-      RETURNING *;s
+      RETURNING *;
    `;
 
 	return fetch<IUsers>(QUERY, id, imgUrl, imgName);
