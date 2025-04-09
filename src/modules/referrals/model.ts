@@ -83,13 +83,13 @@ const referralsList = (
 
 	return fetchALL<IReferrals>(QUERY, referral_code);
 };
-const referringUser = (
-	referral_code: string | undefined,
-): Promise<IUsers | null> => {
+const referringUser = (id: string | undefined): Promise<IUsers | null> => {
 	const QUERY: string = `
       SELECT
          u.id,
-         u.name,
+         u.name, 
+         u.surname,
+         u.image_url,
          u.referral_code
       FROM
          referrals r
@@ -98,10 +98,10 @@ const referringUser = (
       ON
          r.parent_id = u.id
       WHERE
-         r.user_id = (SELECT id FROM users WHERE referral_code = $1); 
+         r.user_id = $1; 
    `;
 
-	return fetch<IUsers>(QUERY, referral_code);
+	return fetch<IUsers>(QUERY, id);
 };
 const foundUserByReferralCode = (
 	referral_code: string,
